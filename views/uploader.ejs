@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Upload your Website</title>
+
+    <script>
+      $(document).ready(function () {
+        let options = {
+          beforeSubmit: showRequest,
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <center><h1>Welcome</h1></center>
+    <br />
+    <center><h2>Only one HTML page with CSS and Javascript files.</h2></center>
+    <center>Link to HTML page</center>
+    <center>Browse and select files.</center>
+    <center>
+      <form
+        action="api/upload"
+        enctype="multipart/form-data"
+        method="post"
+        id="formUploader"
+      >
+        <br />
+        <input type="file" name="htmlUploader" multiple />
+        <br><br><br><br><br>
+        <input type="submit" name="submit" id="btnSubmit" value="upload">
+      </form>
+    </center>
+  </body>
 </html>
