@@ -1,3 +1,5 @@
+/*
+
 "use strict";
 import nodemailer from "nodemailer";
 import * as dotenv from 'dotenv';
@@ -46,3 +48,6 @@ console.log(sender_psid);
 }
 
 export default sendConfirmation;
+
+
+*/
