@@ -1,0 +1,1 @@
+export const awsRegion = "ap-south-1";
