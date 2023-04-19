@@ -5,8 +5,22 @@ import https from "https";
 import multer from "multer";
 import path from "path";
 import sendEmail from "./mailer.js";
+import cors from "cors";
 // import wireCode from "./wireCode.js";
-const app = express().use(express.json());
+const app = express();
+
+app.use(express.json());
+app.options("*", cors());
+app.use(cors());
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 let Storage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -49,23 +63,19 @@ app.get("/uploader", (_req, res) => {
 app.post("/webhook", (req, res) => {
   let body = req.body;
 
-  if (body === "page") 
-  {
+  if (body === "page") {
     body.entry.forEach(function (entry) {
       let webhook_event = entry.messaging[0];
       global.sender_psid = webhook_event.sender.id;
 
       if (webhook_event.message) {
         handleMessage(sender_psid, webhook_event);
-
       } else if (webhook_event.postback) {
         handlePostback(sender_psid, webhook_event.postback);
-      } 
+      }
     });
-    res.sendStatus(200).send('Event Received');
-  }
-  else 
-  {
+    res.sendStatus(200).send("Event Received");
+  } else {
     res.sendStatus(404);
   }
 });
@@ -188,9 +198,6 @@ function handleMessage(webhook_event, sender_psid) {
   callSendAPI(sender_psid, response);
 }
 
-
-
-
 // async function myC(sender_psid) {
 //   let response;
 //   var data = fs.readFileSync(`./wireFrames/${sender_psid}/sample.jpg`);
@@ -252,10 +259,6 @@ function handleMessage(webhook_event, sender_psid) {
 //   };
 //   callSendAPI(sender_psid, response);
 // }
-
-
-
-
 
 function handlePostback(sender_psid, received_postback) {
   let response;
@@ -382,9 +385,6 @@ function handlePostback(sender_psid, received_postback) {
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
 }
-
-
-
 
 function callSendAPI(sender_psid, response) {
   // Construct the message body
